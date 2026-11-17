@@ -4,6 +4,8 @@ import { GiStarsStack } from "react-icons/gi";
 import { FcGoogle } from "react-icons/fc";
 import { auth ,provider} from '../../utils/Firebase';
 import { signInWithPopup } from "firebase/auth";
+import axios from 'axios';
+import { ServerUrl } from '../App.jsx';
 
 
 const Auth = () => {
@@ -12,7 +14,14 @@ const Auth = () => {
     try{
 
         const res = await signInWithPopup(auth,provider)
-        console.log(res)
+        let user = res.user;
+        let name= user.displayName;
+        let email=user.email;
+        const result =  await axios.post(ServerUrl+'/api/user/google',
+           {name,email} ,{withCredentials:true})
+           console.log(result.data)
+        
+        
 
     }catch (error) {
       console.log(error)
@@ -46,7 +55,8 @@ const Auth = () => {
                <p className='text-xl font-medium text-blue-600'>AI Smart Interview</p>
         
             </div>
-            <p className='text-sm text-gray-400 mt-1'>By continuing, you agree to our Terms of Service and Privacy Policy and start Interviewing with AI , track your progress and get final feedback.</p>
+            <p className='text-sm text-gray-400 mt-1'>By continuing, you agree to our Terms of Service and
+               Privacy Policy and start Interviewing with AI , track your progress and get final feedback.</p>
           </div>
 
         <button className='flex flex-row items-center justify-center gap-2 w-full bg-black text-white

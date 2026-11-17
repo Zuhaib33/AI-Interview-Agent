@@ -1,10 +1,14 @@
-import User from "../models/User.js";
-import genToken from "../utils/genToken.js";
+import User from "../models/userModel.js";
+import genToken from "../config/token.js";
 
 export const googleAuth = async (req, res) => {
 
-    try {
 
+    // chk google auth user is already in db or not if not then 
+    //  create new user and send token
+
+    try {
+ 
         const{name,email}=req.body;
 
         let user = await User.findOne({email});
@@ -41,7 +45,8 @@ export const googleAuth = async (req, res) => {
 }
 
    }
-
+  
+   //lgout user and clear cookie
 
   export const logOut = async (req, res) => {
 
